@@ -9,9 +9,9 @@
 #define TFT_SCK  18
 #define TFT_MOSI 23
 
-#define switch 17
+#define button 17
 #define switchLed 16
-#define tiltSwitch 4
+#define tiltSwitch 14
 
 Adafruit_GC9A01A tft(TFT_CS, TFT_DC, TFT_RST);
 
@@ -25,15 +25,17 @@ void setup() {
    tft.setRotation (0);  
    
    tft.fillScreen(GC9A01A_WHITE);
-   pinMode(switch,INPUT_PULLUP);
+   pinMode(button,INPUT_PULLUP);
    pinMode(switchLed,OUTPUT);
+   pinMode(tiltSwitch,INPUT_PULLUP);
    drawScreen_1();
 }
 
 void loop (){
-   Serial.println(digitalRead(switch));
+ 
    digitalWrite(switchLed,LOW);
-   if(digitalRead(switch)==LOW){
+//    if button is pressed or tiltswitch is rotated, play the animation
+   if(digitalRead(button)==LOW || digitalRead(tiltSwitch)==HIGH){
        digitalWrite(switchLed,HIGH);
        for (int i=0;i<8;i++){
          drawScreen_2();
